@@ -58,7 +58,7 @@ struct info {
         u64 vid;
         u64 maxfilesperproc;
         char kern_version[512];
-        char build_version[512]; // Add this line
+        char build_id[512]; // Add this line
         char device_id[512];
     } env;
     struct {

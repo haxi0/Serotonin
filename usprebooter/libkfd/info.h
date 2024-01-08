@@ -94,13 +94,13 @@ void info_init(struct kfd* kfd)
     print_string(kfd->info.env.kern_version);
 
     /*
-     * Initialize the kfd->info.env.build_version substructure.
+     * Initialize the kfd->info.env.build_id substructure.
      */
-    usize size3 = sizeof(kfd->info.env.build_version);
-        assert_bsd(sysctlbyname("kern.osversion", &kfd->info.env.build_version, &size3, NULL, 0));
-        print_string(kfd->info.env.build_version);
+    usize size3 = sizeof(kfd->info.env.build_id);
+        assert_bsd(sysctlbyname("kern.osversion", &kfd->info.env.build_id, &size3, NULL, 0));
+        print_string(kfd->info.env.build_id);
 
-        NSLog(CFSTR("kern.osversion: %s"), kfd->info.env.build_version);
+        NSLog(CFSTR("kern.osversion: %s"), kfd->info.env.build_id);
     
     usize size4 = sizeof(kfd->info.env.device_id);
         assert_bsd(sysctlbyname("hw.machine", &kfd->info.env.device_id, &size4, NULL, 0));
@@ -112,12 +112,12 @@ void info_init(struct kfd* kfd)
     NSLog(CFSTR("number_of_kern_version: %llu"), number_of_kern_versions);
        for (u64 i = 0; i < number_of_kern_versions; i++) {
            const char* current_kern_version = kern_versions[i].kern_version;
-           const char* current_build_version = kern_versions[i].build_version;
+           const char* current_build_version = kern_versions[i].build_id;
            const char* current_device_id = kern_versions[i].device_id;
            // NSLog(CFSTR("Placed at: %llu  "), i); /* Too much spam! */
 
            if (strcmp(kfd->info.env.kern_version, current_kern_version) == 0 &&
-               strcmp(kfd->info.env.build_version, current_build_version) == 0 &&
+               strcmp(kfd->info.env.build_id, current_build_version) == 0 &&
                strcmp(kfd->info.env.device_id, current_device_id) == 0) {
                NSLog(CFSTR("Checking done, totally fine! (Placed at %llu)"), i);
                kfd->info.env.vid = i;
